@@ -1,0 +1,51 @@
+{
+  "variables": {
+    "esx_host": "",
+    "esx_username": "",
+    "esx_password": ""
+  },
+	"builders":[
+	{
+  "type": "vmware-iso",
+  "iso_url": "file:///Users/sdefigueiredo/Downloads/CentOS-6.6-x86_64-bin-DVD1.iso",
+  "iso_checksum": "7b1fb1a11499b31271ded79da6af8584",
+  "iso_checksum_type": "md5",
+  "http_directory": "http",
+  "vm_name": "CentOS-6.6_x64",
+  "vmdk_name": "CentOS-6.6_x64",
+  "remote_host": "{{user `esx_host`}}",
+  "remote_datastore": "datastore1/templates",
+  "remote_username": "{{user `esx_username`}}",
+  "remote_password": "{{user `esx_password`}}",
+  "remote_type": "esx5",
+  "vmx_template_path": "esx5-packer-template.vmx",
+  "guest_os_type": "rhel6-64",
+  "ssh_username": "emmet",
+  "ssh_password": "emmet",
+  "ssh_wait_timeout": "400s",
+  "tools_upload_flavor": "linux",
+  "tools_upload_path": "/tmp/", 
+  "shutdown_command": "echo emmet | sudo -S shutdown -P now",
+  "output_directory": "centos6-vm-template-base",
+  "boot_wait": "10s",
+  "boot_command": [
+      "<wait><tab>",
+      " text <wait>ks=http://<wait>{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ]
+  }
+	
+	],
+	
+	"provisioners": [
+  {
+  "type": "file",
+  "source": "files/VMwareTools-9.4.10-2068191.tar.gz",
+  "destination": "/home/emmet/VMwareTools-9.4.10-2068191.tar.gz"
+  },
+  {
+    "execute_command": "echo 'emmet' | sudo -S sh '{{ .Path }}'",
+    "type": "shell",
+    "script": "shell-scripts/packer-install-vmwaretools-centos.sh" 
+  }]
+
+}
