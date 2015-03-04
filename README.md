@@ -18,5 +18,5 @@ NOTE: This builder is configured to upload a 'modified' version of VMWare Tools 
 1.  Modify some basic settings (you will need to change the path for the location of the CentOS ISO).
 1.  Modify the ks.cfg, if you require changes specific to your environment.
 1.  Modify the esxi-5.5u2-centos6.6-netinstall-base-template.json (as an example I changed the 'ethernet0.networkName' setting.
-1.  To create the ESXi template, run the command (from the git checkout directory): packer build -var 'esx_host=**eshhostname**' -var 'esx_username=**esxusername**' -var 'esx_password=**esxpassword**'
+1.  To create the ESXi template, run the command (from the git checkout directory): packer build -var 'esx_host=**eshhostname**' -var 'esx_username=**esxusername**' -var 'esx_password=**esxpassword**' esxi-5.5u2-centos6.6-netinstall-base-template.json
 
